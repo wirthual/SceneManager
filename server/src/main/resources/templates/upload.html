@@ -1,0 +1,255 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+
+<script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"></link>
+
+<script src="/webjars/leaflet/1.2.0/leaflet.js"></script>
+<script src="/js/map_api_token.js"></script>
+
+<link rel="stylesheet" href="/webjars/leaflet/1.2.0/leaflet.css" />
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Scene Manager</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="/">Home</a></li>
+					<li><a href="overview">Overview</a></li>
+					<li><a href="manage">Manage</a></li>
+					<li class="active"><a href="#">Upload</a></li>
+					<li><a href="about.html">About</a></li>
+					<li><a href="fordeveloper">Developers</a></li>
+					
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a class="no-padding" href="login"><img
+							href="overview" sec:authorize="isAnonymous()" class="login-btn"
+							src="/images/btn_google_signin_dark_normal_web.png"></img></a></li>
+					<li><a class="dropdown-toggle nopadding"
+						data-toggle="dropdown" sec:authorize="isAuthenticated()"
+						sec:authentication="name">Name</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a role="button" id="logout">Logout</a></li>
+						</ul></li>
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</nav>
+	<div class="container">
+		<h1>Scene Manager</h1>
+		<div th:if="${message}" class="alert alert-info">
+			<h5 th:text="${message}" />
+		</div>
+		<div class="col-sm-6 border">
+			<div>
+
+				<form id="uploadForm" method="POST" enctype="multipart/form-data"
+					action="api/file/upload/scene">
+					<table>
+						<tr>
+							<td colspan="3"><h3>General Information:</h3></td>
+						</tr>
+						<tr>
+							<td>Type:</td>
+							<td colspan="2"><label class="radio-inline"> <input
+									value="Scene" type="radio" name="type" checked="checked" />Scene
+							</label> <label class="radio-inline"> <input type="radio"
+									name="type" value="Adf" />ADF
+							</label></td>
+						</tr>
+						<tr>
+							<td>Name:</td>
+							<td colspan="2"><input label="Name:" id="name" type="text"
+								name="name" required="true" /></td>
+						</tr>
+						<tr>
+							<td>Description:</td>
+							<td colspan="2"><textarea maxlength="200"
+									label="Description:" id="desc" name="desc"
+									placeholder="Describe your scene here, so others can find it easily."
+									required="true"></textarea></td>
+						</tr>
+						<tr>
+							<td colspan="3"><h3>Location:</h3></td>
+						</tr>
+						<tr>
+							<td colspan="3">Select location on the map or use the button
+								to locate yourself.</td>
+						</tr>
+
+						<tr>
+							<td>Latitude:</td>
+							<td><input id="lat" type="text" name="lat" required="true" /></td>
+						</tr>
+						<tr>
+							<td>Longitude:</td>
+							<td colspan="2"><input id="lng" type="text" name="lng"
+								required="true" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><button id="coord" type="button">Use Current
+									Location</button></td>
+							<td></td>
+
+						</tr>
+						<tr>
+							<td>Level:</td>
+							<td colspan="2"><input type="text" name="lvl"
+								required="true" /></td>
+						</tr>
+						<tr>
+							<td>Altitude:</td>
+							<td colspan="2"><input type="text" name="alt"
+								required="false" /></td>
+						</tr>
+						<tr>
+							<td colspan="3"><h3>File:</h3></td>
+						</tr>
+						<tr>
+							<td colspan="3"><input type="file" name="file"
+								required="true" /></td>
+						</tr>
+						<tr>
+							<td colspan="3"><div class="pull-right">
+									<input class="btn btn-primary" type="submit" value="Upload" />
+								</div></td>
+						</tr>
+
+
+					</table>
+				</form>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div id="mapid"></div>
+		</div>
+
+		<footer class="footer">
+			<p>
+				&copy; 2017 <a href="http://www.teco.edu">TECO</a>
+			</p>
+		</footer>
+	</div>
+
+
+
+	<script>
+		$(function() {
+			var btn_locateMe = $("#coord");
+			var btn_logout = $("#logout");
+			var btns_delete = $('.delete'); //Multiple buttons
+			var txt_lat = $("#lat");
+			var txt_lng = $("#lng");
+			var frm_upload = $("#uploadForm");
+
+			var mymap = L.map('mapid').setView([ 49.012782, 8.4236488 ], 13);
+			L
+					.tileLayer(
+							'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+							{
+								attribution : 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+								maxZoom : 18,
+								id : MAPBOX_ID,
+								accessToken : MAPBOX_ACCESSTOKEN
+							}).addTo(mymap);
+
+			var marker;
+			mymap.on('click', function(e) {
+				if (marker)
+					mymap.removeLayer(marker);
+				console.log(e.latlng); // e is an event object (MouseEvent in this case)
+				marker = L.marker(e.latlng).addTo(mymap);
+				txt_lat.val(e.latlng.lat);
+				txt_lng.val(e.latlng.lng);
+			});
+
+			btn_locateMe.click(function() {
+
+				if ("geolocation" in navigator) {
+					navigator.geolocation.getCurrentPosition(showPosition);
+				} else {
+					console.log("Not supported!");
+					alert("Not supported by your browser!");
+				}
+			});
+
+			function showPosition(position) {
+				txt_lat.val(position.coords.latitude);
+				txt_lng.val(position.coords.longitude);
+				mymap.setView([ position.coords.latitude,
+						position.coords.longitude ], 13);
+				var markerLatLng = new L.LatLng(position.coords.latitude,
+						position.coords.longitude);
+				if (marker)
+					mymap.removeLayer(marker);
+
+				marker = L.marker(markerLatLng).addTo(mymap);
+
+			}
+
+			btn_logout.click(function() {
+				var jqxhr = $.post("/logout", function(response) {
+					window.location.href = "/";
+				}).fail(function() {
+					alert("error on logout");
+				});
+			});
+
+			$('input[type=radio][name=type]').change(function() {
+				if (this.value == 'Adf') {
+					frm_upload.attr("action", "api/file/upload/adf")
+					console.log("changed form action to adf")
+				} else if (this.value == 'Scene') {
+					frm_upload.attr("action", "api/file/upload/scene")
+					console.log("changed form action to scene")
+
+				}
+			});
+			
+
+		});
+	</script>
+
+	<style>
+#mapid {
+	height: 300px;
+}
+
+.border {
+	border-style: solid;
+	border-width: 2px;
+}
+
+table {
+	table-layout: fixed;
+	width: 100%;
+}
+
+body {
+	padding-top: 50px;
+}
+
+.starter-template {
+	padding: 40px 15px;
+	text-align: center;
+}
+</style>
+
+
+</body>
+</html>

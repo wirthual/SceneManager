@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textFragment1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/typeDescription" />
+
+    <RadioGroup
+        android:id="@+id/radiogroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkedButton="@+id/radioPoint">
+
+        <RadioButton
+            android:id="@id/radioPoint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/typePoint" />
+
+        <RadioButton
+            android:id="@+id/radioPlane"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/type2D" />
+
+        <RadioButton
+            android:id="@+id/radioCube"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/type3D" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textActivityDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/activityDescription" />
+
+    <EditText
+        android:hint="@string/activitiesHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_activities"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="URL for WebAPICall"/>
+
+    <EditText
+        android:hint="@string/webURLHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/url_edittext"/>
+</LinearLayout>

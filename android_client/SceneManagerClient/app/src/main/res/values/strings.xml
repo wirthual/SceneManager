@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">SceneManagerClient</string>
+
+    <!-- Strings related to App -->
+    <string name="settings">Settings</string>
+    <string name="upload_adf">Upload ADF</string>
+    <string name="download_adf">Download ADF</string>
+    <string name="title_activity_settings">Settings</string>
+
+
+    <!-- Strings related to Upload and Download Acitvity -->
+    <string name="name">Name</string>
+    <string name="desc">Descripiton</string>
+    <string name="lat">Latitude</string>
+    <string name="lng">Longitude</string>
+    <string name="alt">Altitude</string>
+    <string name="lvl">Level</string>
+    <string name="nothing_found">Nothing found</string>
+    <string name="find">Find</string>
+    <string name="nofile">No file selected</string>
+    <string name="select_file">Select file</string>
+
+
+
+
+    <string name="contDescMyLocation">My Location</string>
+
+    <string name="search_radius">Search Radius</string>
+
+    <!-- Strings related to Settings -->
+    <string name="consettings">Connection Settings</string>
+    <string name="ipaddress">IP address</string>
+    <string name="ipaddresssummary">URL of SceneManager</string>
+    <string name="port">Port</string>
+    <string name="portsummary">Port of SceneManager</string>
+
+
+    <!-- Strings related to Authentication Keys-->
+    <string name="server_client_id">[Insert your client id here. Get it from google developer console]</string>
+    <string name="client_password">[Insert your client secret here.  Get it from google developer console]</string>
+    <string name="token_url">https://www.googleapis.com/oauth2/v4/token</string>
+
+</resources>

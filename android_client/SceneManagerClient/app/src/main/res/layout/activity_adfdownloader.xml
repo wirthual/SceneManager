@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.teco.scenemanager.adfmanagerclient.DownloadAcitvity"
+    >
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/editLat"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:hint="Latitude" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/editLng"
+        android:layout_below="@+id/editLat"
+        android:layout_centerHorizontal="true"
+        android:hint="Longitude" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/editLvl"
+        android:layout_below="@+id/editLng"
+        android:layout_centerHorizontal="true"
+        android:hint="Level" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find"
+        android:id="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/seekBar" />
+
+    <ImageButton
+        android:contentDescription="@string/contDescMyLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_location"
+        android:src="@android:drawable/ic_menu_mylocation"
+        android:layout_alignBottom="@+id/editLng"
+        android:layout_toRightOf="@+id/editLng"
+        android:layout_toEndOf="@+id/editLng" />
+
+    <SeekBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/seekBar"
+        android:layout_below="@+id/textView"
+        android:layout_alignStart="@+id/editLvl"
+        android:layout_alignLeft="@+id/editLvl"
+        android:layout_toLeftOf="@id/textView2"
+        android:max="10000"
+        android:indeterminate="false" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/button" />
+
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/button"
+        android:text="Nothing found" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/search_radius"
+        android:id="@+id/textView"
+        android:layout_below="@+id/editLvl"
+        android:layout_alignStart="@+id/seekBar"
+        android:layout_alignLeft="@+id/seekBar"
+
+        />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/editLvl"
+        android:layout_alignRight="@+id/editLvl"
+        android:layout_below="@+id/textView"
+        android:text="10000"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+
+</RelativeLayout>

@@ -1,0 +1,205 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+
+<script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"></link>
+
+<script src="/webjars/leaflet/1.2.0/leaflet.js"></script>
+<script src="/js/map_api_token.js"></script>
+
+<link rel="stylesheet" href="/webjars/leaflet/1.2.0/leaflet.css" />
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Scene Manager</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="/">Home</a></li>
+					<li class="active"><a href="#">Overview</a></li>
+					<li><a href="manage">Manage</a></li>
+					<li><a href="upload">Upload</a></li>
+					<li><a href="about.html">About</a></li>
+					<li><a href="fordeveloper">Developers</a></li>
+					
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a class="no-padding" href="login"><img
+							href="overview" sec:authorize="isAnonymous()" class="login-btn"
+							src="/images/btn_google_signin_dark_normal_web.png"></img></a></li>
+					<li><a class="dropdown-toggle nopadding"
+						data-toggle="dropdown" sec:authorize="isAuthenticated()"
+						sec:authentication="name">Name</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a role="button" id="logout">Logout</a></li>
+						</ul></li>
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</nav>
+
+
+	<div class="container">
+		<h3>Overview</h3>
+		<div th:if="${message}" class="alert alert-info">
+			<h5 th:text="${message}" />
+		</div>
+		<div class="col-sm-6">
+			<div>
+				<p>Here you see all uploaded Scenes around the World. You can browse
+				them with the map on the left side or search the list for scenes you
+				are interested in.</p>
+				<p>To download a scene simply press the download button of the corresponding scene.</p>
+				<p>To upload your own scenes sign in and navigate to the upload tab. If you to manage your uploaded scenes, navigate to the manage tab where you can see your scenes and delete them if you wish.</p> 
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div id="mapid"></div>
+		</div>
+		<div>
+			<table id="adfTable" class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>Type</th>
+						<th>Name</th>
+						<th>Description</th>
+						<th>Latitude</th>
+						<th>Longitude</th>
+						<th>Level</th>
+						<th>Altitude</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="adf : ${files}" th:attr="data-uuid=${adf.uuid}">
+						<td th:text="${adf.type}">Type</td>
+						<td th:text="${adf.name}">Name</td>
+						<td class="wordwrap" th:text="${adf.description}">Beschreibung</td>
+						<td th:text="${adf.lat}">Lat</td>
+						<td th:text="${adf.lng}">Lng</td>
+						<td th:text="${adf.lvl}">Lvl</td>
+						<td th:text="${adf.alt}">Alt</td>
+						<td><button onclick="downloadFile(event)" th:attr="data-id=${adf.id}" class="download"
+								type="button">Download</button></td>
+					</tr>
+				</tbody>
+			</table>
+			<div th:if="${filterInfo}" class="alert alert-info">
+				<h5 th:text="${filterInfo}"></h5>
+			</div>
+		</div>
+
+		<footer class="footer">
+			<p>&copy; 2017 <a href="http://www.teco.edu">TECO</a></p>
+		</footer>
+	</div>
+
+
+
+	<script>
+	//<![CDATA[
+				
+		function downloadFile(event){
+			var id = $(event.target).attr('data-id');
+			var location = "api/file/id/"+id;
+			console.log("Trying to get"+location);
+			window.location = location;
+		}
+		
+		$(function() {
+			var button = $("#coord");
+			var lat = $("#lat");
+			var lng = $("#lng");
+
+			var mymap = L.map('mapid').setView([ 49.012782, 8.4236488 ], 13);
+			L
+					.tileLayer(
+							'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+							{
+								attribution : 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+								maxZoom : 18,
+								id : MAPBOX_ID,
+								accessToken : MAPBOX_ACCESSTOKEN
+							}).addTo(mymap);
+
+
+			$.getJSON("api/adf", function(data) {
+				console.log(data)
+				var items = [];
+				$.each(data, function(key, val) {
+					console.log(val);
+					var lat = val.lat;
+					var lng = val.lng;
+					var marker = L.marker([ lat, lng ]);
+					var desc = "Name: " + val.name + "\n Description: "
+							+ val.description;
+					marker.bindPopup(desc).openPopup();
+					marker.addTo(mymap);
+				});
+
+			});
+
+			var logout = $("#logout");
+			logout.click(function() {
+				var jqxhr = $.post("/logout", function(response) {
+					window.location.href = "/";
+				}).fail(function() {
+					alert("error on logout");
+				});
+			});
+
+			button.click(function() {
+
+				if ("geolocation" in navigator) {
+					navigator.geolocation.getCurrentPosition(showPosition);
+				} else {
+					console.log("Not supported!");
+				}
+			});
+			
+
+			function showPosition(position) {
+				lat.val(position.coords.latitude);
+				lng.val(position.coords.longitude);
+			}
+		
+		});		
+	    //]]>
+	</script>
+
+	<style>
+#mapid {
+	height: 300px;
+}
+
+body {
+	padding-top: 50px;
+}
+
+.wordwrap {
+ word-break:break-all;"
+}
+.starter-template {
+	padding: 40px 15px;
+	text-align: center;
+}
+
+.no-padding {
+	padding: 0 !important;
+}
+</style>
+
+
+</body>
+</html>

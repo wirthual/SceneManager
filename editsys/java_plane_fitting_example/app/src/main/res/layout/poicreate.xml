@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/textFragment1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/typeDescription" />
+
+    <RadioGroup
+        android:id="@+id/radiogroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkedButton="@+id/radioPoint">
+
+        <RadioButton
+            android:id="@id/radioPoint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/typePoint" />
+
+        <RadioButton
+            android:id="@+id/radioPlane"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/type2D" />
+
+        <RadioButton
+            android:id="@+id/radioCube"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/type3D" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textActivityDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/activityDescription" />
+    <CheckBox
+        android:id="@+id/actStehen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/actStehen"/>
+    <CheckBox
+        android:id="@+id/actSitzen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/actSitzen"/>
+    <CheckBox
+        android:id="@+id/actLiegen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/actLiegen"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="URL for WebAPICall"/>
+
+    <EditText
+        android:hint="@string/webURLHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/url_edittext"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/descriptionHint"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editName"
+        android:hint="Name"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editShortDesc"
+        android:hint="Kurzbeschreibung"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editLongDesc"
+        android:hint="Beschreibung"/>
+
+    <com.android.colorpicker.ColorPickerPalette
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/palette"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="12dp"
+        />
+
+</LinearLayout>

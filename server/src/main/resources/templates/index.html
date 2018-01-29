@@ -1,0 +1,212 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+
+<script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"></link>
+
+<script src="/webjars/leaflet/1.2.0/leaflet.js"></script>
+<link rel="stylesheet" href="/webjars/leaflet/1.2.0/leaflet.css" />
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Scene Manager</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">Home</a></li>
+					<li><a href="overview">Overview</a></li>
+					<li><a href="manage">Manage</a></li>
+					<li><a href="upload">Upload</a></li>
+					<li><a href="about.html">About</a></li>
+					<li><a href="fordeveloper">Developers</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a class="no-padding" href="login"><img
+							href="overview" sec:authorize="isAnonymous()" class="login-btn"
+							src="/images/btn_google_signin_dark_normal_web.png"></img></a></li>
+					<li><a class="dropdown-toggle nopadding"
+						data-toggle="dropdown" sec:authorize="isAuthenticated()"
+						sec:authentication="name">Name</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a role="button" id="logout">Logout</a></li>
+						</ul></li>
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="jumbotron">
+			<h1>Scene Manager</h1>
+			<p class="lead">Login now with your Google account and upload
+				your ADF-Files to easily share them between your devices.</p>
+
+		</div>
+		<div class="row border-between">
+			<div class="col-sm-4">
+				<h3>
+					<span class="badge badge-primary">1</span> Record a scene
+				</h3>
+				<p>Record an ADF-File with your Tango enabled device. Save and export it to the file system and you are ready to upload it.</p>
+			</div>
+			<div class="col-sm-4">
+				<h3>
+					<span class="badge badge-primary">2</span> Upload
+				</h3>
+				<p>To share your recorded ADF file, you can upload it to the scene
+					manager out of the SceneManagerClient from the Play Store. Just select upload, authenticate with your
+					Google account and upload the file.</p>
+			</div>
+			<div class="col-sm-4">
+				<h3>
+					<span class="badge badge-primary">3</span> Download
+				</h3>
+				<p>Other users can use ur ADF file and download it to use it for their applications. Just press the download button in SceneManagerClient. Its simple as that!</p>
+			</div>
+		</div>
+		<footer class="footer">
+			<p>
+				&copy; 2017 <a href="http://www.teco.edu">TECO</a>
+			</p>
+		</footer>
+	</div>
+	<script>
+		$(function() {
+
+			var logout = $("#logout");
+			logout.click(function() {
+				console.log("logout");
+				var jqxhr = $.post("/logout", function(response) {
+					window.location.reload(true);
+				}).fail(function() {
+					alert("error on logout");
+				});
+			});
+
+		});
+	</script>
+
+	<style>
+#mapid {
+	height: 300px;
+}
+/* Space out content a bit */
+body {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header, .marketing, .footer {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+/* Custom page header */
+.header {
+	padding-bottom: 20px;
+	border-bottom: 1px solid #e5e5e5;
+}
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+	margin-top: 0;
+	margin-bottom: 0;
+	line-height: 40px;
+}
+
+/* Custom page footer */
+.footer {
+	padding-top: 19px;
+	color: #777;
+	border-top: 1px solid #e5e5e5;
+}
+
+.container-narrow>hr {
+	margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+	text-align: center;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.jumbotron .btn {
+	padding: 14px 24px;
+	font-size: 21px;
+}
+
+/* Supporting marketing content */
+.marketing {
+	margin: 40px 0;
+}
+
+.marketing p+h4 {
+	margin-top: 28px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+	/* Remove the padding we set earlier */
+	.header, .marketing, .footer {
+		padding-right: 0;
+		padding-left: 0;
+	}
+	/* Space out the masthead */
+	.header {
+		margin-bottom: 30px;
+	}
+	/* Remove the bottom border on the jumbotron for visual effect */
+	.jumbotron {
+		border-bottom: 0;
+	}
+}
+
+.login-btn:hover { /* On hover */
+	background-image: url(btn_google_signin_dark_focus_web.png);
+}
+
+.login-btn:focus { /* After a click */
+	background-image: url(btn_google_signin_dark_pressed_web.png);
+}
+
+body {
+	padding-top: 50px;
+}
+
+.starter-template {
+	padding: 40px 15px;
+	text-align: center;
+}
+
+.no-padding {
+	padding: 0 !important;
+}
+
+.number {
+	border-radius: 50%;
+	width: 120px;
+	font-size: 32px;
+	border: 2px solid #666;
+}
+
+.number span {
+	text-align: center;
+	line-height: 120px;
+	display: block;
+}
+</style>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/consettings">
+        <EditTextPreference
+            android:key="ipadress"
+            android:defaultValue="192.168.0.104"
+            android:summary="@string/ipaddresssummary"
+            android:title="@string/ipaddress" />
+        <EditTextPreference
+            android:key="port"
+            android:defaultValue="8080"
+            android:summary="@string/portsummary"
+            android:title="@string/port" />
+        <EditTextPreference
+            android:key="uuid"
+            android:defaultValue="notLoaded"
+            android:summary="Uuid of current ADF-File"
+            android:title="ADF File"
+            android:editable="false"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

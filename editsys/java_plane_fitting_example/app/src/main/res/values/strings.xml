@@ -1,0 +1,151 @@
+<resources>
+    <string name="app_name">EditSys</string>
+    <string name="app_name_long">EditSystem</string>
+    <string name="exception_out_of_date">"Tango service outdated!"</string>
+    <string name="exception_tango_error">"Tango exception!"</string>
+    <string name="exception_tango_invalid">"Tango invalid exception! Try again!"</string>
+    <string name="failed_measurement">Failed to fit plane</string>
+    <string name="failed_permissions">Permissions required!</string>
+
+    <string name="tab0">Typ</string>
+    <string name="tab1">Beschreibung</string>
+    <string name="tab2">Farbe</string>
+    <string name="tab3">Zusammenfassung</string>
+
+    <string name="typeDescription">Welcher Typ von Punkt soll hier erstellt werden?</string>
+    <string name="typePoint">Punkt</string>
+    <string name="type2D">2D</string>
+    <string name="type3D">3D</string>
+
+    <string name="activityDescription">Für welche Activität soll dieser POI angezeigt werden?</string>
+    <string name="actSitzen">Sitzen</string>
+    <string name="actStehen">Stehen</string>
+    <string name="actLiegen">Liegen</string>
+
+
+    <string-array name="picker_colors">
+        <item>#F6402C</item>
+        <item>#EB1460</item>
+        <item>#9C1AB1</item>
+        <item>#6633B9</item>
+        <item>#3D4DB7</item>
+        <item>#1093F5</item>
+        <item>#00A6F6</item>
+        <item>#00BBD5</item>
+        <item>#009687</item>
+        <item>#46AF4A</item>
+        <item>#88C440</item>
+        <item>#CCDD1E</item>
+        <item>#FFEC16</item>
+        <item>#FFC100</item>
+        <item>#FF9800</item>
+        <item>#FF5505</item>
+        <item>#7A5547</item>
+        <item>#9D9D9D</item>
+        <item>#5E7C8B</item>
+    </string-array>
+
+    <string name="start">Start</string>
+    <string name="set_name_dialog_title">Set the ADF name</string>
+    <string name="cancel">Cancel</string>
+    <string name="save_adf">Save ADF</string>
+    <string name="name">Name</string>
+    <string name="ok">OK</string>
+    <string name="start_config">Start</string>
+    <string name="manage_adfs">Manage ADFs</string>
+    <string name="api_adfs">Project Tango Local ADFs:</string>
+    <string name="application_adfs">Application ADFs</string>
+    <string name="uuid">UUID</string>
+    <string name="tango_error">"Tango Exception! Try again!"</string>
+    <string name="tango_invalid">"Tango Invalid Exception! Try again!"</string>
+    <string name="tango_out_of_date_exception">"Tango Service outdated!"</string>
+    <string name="no_uuid_tango_error">"No ADF with that UUID!"</string>
+    <string name="adf_save">"ADF saved with UUID: "</string>
+    <string name="adf_exists_app_space">"Tango Error! ADF already exists in app space or File system."</string>
+    <string name="adf_exists_api_space">"Tango Error! ADF already exists in API Space."</string>
+    <string name="no_adfs_tango_error">No ADF UUIDs</string>
+    <string name="no_permissions">"Permission not granted!"</string>
+    <string name="metadata_not_read">"Meta Data cannot be read"</string>
+    <string name="motiontracking_permission">"Motion Tracking permission needed!"</string>
+    <string name="arealearning_permission">"Area Learning permission needed!"</string>
+    <string name="no_uuid">"no ADFs"</string>
+    <string name="number_of_adfs">"No of ADFs: "</string>
+    <string name="na">"N/A"</string>
+    <string name="learning_mode_off">"Learning mode off"</string>
+    <string name="learning_mode_on">"Learning mode on"</string>
+    <string name="load_adf_on">"Load ADF on"</string>
+    <string name="load_adf_off">"Load ADF off"</string>
+    <string name="pose_initializing">"initializing"</string>
+    <string name="pose_valid">"valid"</string>
+    <string name="pose_invalid">"invalid"</string>
+    <string name="pose_unknown">"unknown"</string>
+    <string name="latest_adf_is">", Latest ADF is: "</string>
+    <string name="adf_saving">Saving ADF</string>
+    <string name="default_adf_name">New ADF</string>
+    <string name="save_adf_failed_toast_format">"Failed to save ADF '%1$s'."</string>
+    <string name="save_adf_success_toast_format">"Saved ADF '%1$s' (%2$s)."</string>
+    <string name="relocalization_status">Relocalization Status:</string>
+    <string name="localized">Localized</string>
+    <string name="not_localized">Not Localized</string>
+    <string name="tango_not_ready">"Tango is not ready yet!"</string>
+    <string-array name="set_dialog_menu_items_api_space">
+        <item>Rename</item>
+        <item>Delete from API space</item>
+        <item>Export to App space</item>
+    </string-array>
+    <string-array name="set_dialog_menu_items_app_space">
+        <item>Delete from  App space</item>
+        <item>Import to API space</item>
+    </string-array>
+
+    <item type="id" name="myId"/>
+
+    <string name="Settings">Settings</string>
+    <string name="action_settings">Settings</string>
+    <string name="credentials">Credentials</string>
+    <string name="consettings">Connection Settings</string>
+    <string name="ipaddress">IP address</string>
+    <string name="ipaddresssummary">IP address of AdfManager</string>
+    <string name="port">Port</string>
+    <string name="portsummary">Port AdfManager is running.</string>
+
+    <string name="waitForLoc">Wait for Localization... Move around with device.</string>
+    <string name="noAdfLoaded">No Scene Loaded. Please select one.</string>
+
+    <string name="dwnlScene">Download Scene</string>
+    <string name="uplScene">Upload Scene</string>
+    <string name="newScene">New Scene</string>
+
+    <string name="editPoi">Edit POI</string>
+    <string name="deletePoi">Delete POI</string>
+    <string name="trigger">Trigger</string>
+    <string name="showhide">Show/Hide Info</string>
+    <string name="expjson">Export JSON</string>
+    <string name="cleanDB">Clean Database</string>
+
+    <string name="dbcount">Objects in Database:</string>
+
+    <string name="descriptionHint">Geben sie die Informationen für den neu anzulegenden POI ein:</string>
+    <string name="contDescCompass">Compass</string>
+    <string name="contDescMyLocation">My Location</string>
+    <string name="contDescColor">Shows color of POI</string>
+
+    <string name="webURLHint">URL to trigger</string>
+    <string name="activitiesHint">Comma seperated activities connected to POI.</string>
+    <string name="positon">Position</string>
+    <string name="orientation">Orientation</string>
+<string name="size">Size</string>
+
+    <string name="height">Height</string>
+    <string name="width">Width</string>
+    <string name="depth">Depth</string>
+
+    <string name="xaxis">X-Axis</string>
+    <string name="yaxis">Y-Axis</string>
+    <string name="zaxis">Z-Axis</string>
+    <string name="client-id">[your client id here]</string>
+    <string name="client-secret">[your client secret here]</string>
+
+
+
+</resources>

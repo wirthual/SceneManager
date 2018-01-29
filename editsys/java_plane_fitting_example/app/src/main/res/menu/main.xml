@@ -1,0 +1,64 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item android:id="@+id/action_loadNewAdf"
+        android:title="@string/newScene"
+        app:showAsAction="withText|ifRoom"
+        android:icon="@drawable/ic_add_location_white_24dp"/>
+
+
+    <item android:id="@+id/action_upload"
+        android:title="@string/uplScene"
+        app:showAsAction="withText|ifRoom"
+        android:icon="@drawable/ic_cloud_upload_white_24dp"/>
+
+    <item android:id="@+id/action_download"
+        android:title="@string/dwnlScene"
+        app:showAsAction="withText|ifRoom"
+        android:icon="@drawable/ic_cloud_download_white_24dp"/>
+
+
+    <item android:id="@+id/action_cleanDb"
+        android:title="@string/cleanDB"
+        app:showAsAction="withText"
+        android:icon="@drawable/ic_delete_forever_white_24dp"/>
+
+    <item android:id="@+id/action_showHideInfo"
+        android:title="@string/showhide"
+        app:showAsAction="withText"/>
+
+    <item android:id="@+id/action_exportJson"
+        android:title="@string/expjson"
+        app:showAsAction="withText"/>
+
+
+    <item android:id="@+id/action_deleteSelectedObject"
+        android:title="@string/deletePoi"
+        android:icon="@android:drawable/ic_menu_delete"
+        app:showAsAction="withText|ifRoom"/>
+
+
+    <item android:id="@+id/action_editSelectedObject"
+        android:title="@string/editPoi"
+        android:icon="@android:drawable/ic_menu_edit"
+        app:showAsAction="withText|ifRoom"/>
+
+
+    <item android:id="@+id/action_triggerFunction"
+        android:title="@string/trigger"
+        android:icon="@android:drawable/ic_menu_preferences"
+        app:showAsAction="withText|ifRoom"/>
+
+    <item android:id="@+id/action_cancelSelection"
+        android:title="@string/cancel"
+        android:icon="@android:drawable/ic_menu_close_clear_cancel"
+        app:showAsAction="withText|ifRoom"/>
+
+
+    <!-- Settings, should always be in the overflow -->
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        app:showAsAction="never"/>
+
+</menu>

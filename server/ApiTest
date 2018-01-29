@@ -1,0 +1,2 @@
+OpenWeather: http://api.openweathermap.org/data/2.5/weather?lat=49.011749022702375&lon=8.417777344076672139&appid=c8ea7f907087ffaf631b5deb699f8a38
+Google Elevation: https://maps.googleapis.com/maps/api/elevation/json?locations=49.01158609,8.41757759+&key=AIzaSyBex1DzvHQQSGdrv3Lcv1r1eMzyVX9qbno

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/consettings">
+        <EditTextPreference
+            android:key="url"
+            android:defaultValue="scenemanager.teco.edu"
+            android:summary="@string/ipaddresssummary"
+            android:title="@string/ipaddress" />
+        <EditTextPreference
+            android:key="port"
+            android:defaultValue="80"
+            android:summary="@string/portsummary"
+            android:title="@string/port" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.teco.scenemanager.adfmanagerclient.UploadAcitvity">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/editName"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/name" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/editLat"
+        android:layout_below="@+id/editName"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/lat" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/editLng"
+        android:layout_below="@+id/editLat"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/lng" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:ems="10"
+        android:id="@+id/editDesc"
+        android:layout_below="@+id/editLng"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/desc" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/editLvl"
+        android:layout_below="@+id/editDesc"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/lvl" />
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/editAlt"
+        android:layout_below="@+id/editLvl"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/alt" />
+
+
+    <TextView
+        android:id="@+id/tv_File"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/btn_location"
+        android:layout_alignStart="@id/editAlt"
+        android:layout_alignLeft="@id/editAlt"
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/editAlt"
+        android:text="@string/nofile" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/upload_adf"
+        android:id="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/btn_selectFile" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/select_file"
+        android:id="@+id/btn_selectFile"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tv_File" />
+
+
+    <ImageButton
+        android:contentDescription="@string/contDescMyLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_location"
+        android:src="@android:drawable/ic_menu_mylocation"
+        android:layout_alignBottom="@+id/editLng"
+        android:layout_toRightOf="@+id/editLng" />
+
+</RelativeLayout>

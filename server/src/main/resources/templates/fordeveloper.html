@@ -1,0 +1,727 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+
+<script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"></link>
+<link rel="stylesheet" href="/webjars/leaflet/1.2.0/leaflet.css"></link>
+<link rel="stylesheet" href="/css/atelier-cave-light.css"></link>
+<script src="/webjars/leaflet/1.2.0/leaflet.js"></script>
+
+<script src="/js/highlight.pack.js"></script>
+
+</head>
+<body id="scrollwrapper" data-spy="scroll" data-target="#myScrollspy"
+	data-offset="51">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<a href="https://github.com/wirthual"><img
+			style="position: absolute; top: 0; left: 0; border: 0;"
+			src="https://camo.githubusercontent.com/82b228a3648bf44fc1163ef44c62fcc60081495e/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f7265645f6161303030302e706e67"
+			alt="Fork me on GitHub"
+			data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"></img></a>
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Scene Manager</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="/">Home</a></li>
+					<li><a href="overview">Overview</a></li>
+					<li><a href="manage">Manage</a></li>
+					<li><a href="upload">Upload</a></li>
+					<li><a href="about">About</a></li>
+					<li class="active"><a href="#">Developers</a></li>
+
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a class="no-padding" href="overview"><img
+							href="login" sec:authorize="isAnonymous()" class="login-btn"
+							src="/images/btn_google_signin_dark_normal_web.png"></img></a></li>
+					<li><a class="dropdown-toggle nopadding"
+						data-toggle="dropdown" sec:authorize="isAuthenticated()"
+						sec:authentication="name">Name</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a role="button" id="logout">Logout</a></li>
+						</ul></li>
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</nav>
+
+	<div>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<div id="section1">
+						<h2>About the project</h2>
+						<p>This project was created in the Praxis der Forschung event
+							on the way to MSc. at the KIT at TECO.</p>
+					</div>
+
+					<div class="col-sm-9">
+						<div id="section2">
+							<h2>SceneManager</h2>
+							<p>Here you find general information about SceneManager.</p>
+
+							<div id="section2a">
+								<h4>Structure</h4>
+								<p>Here you can see a rough structure of the Scene Manager</p>
+								<img class="sizeimg" alt="" src="/images/SceneManager.png"></img>
+								<p>Scene Manager uses a Postgres-Database to store
+									meta-information about uploaded Scenes or ADFs. By now,
+									uploaded files are placed in a SceneManager folder in the home
+									directory of the file system. Uploaded ADFs go into the ADF
+									folder, scenes accordingly to the Scenes folder. The file name
+									of the uploaded Scene or ADF is corresponding to its UUID given
+									by the Tango system. In order to avoid duplicates, a timestamp
+									of the uploading is attached to the file name.</p>
+							</div>
+
+
+
+							<div id="section2b">
+								<h4>API Description</h4>
+								<p>
+									<a href="/docapi/index.html">Here</a> you can find a
+									comprehensive description of the provided API, which allows you
+									to make some tests and see the format of the results. The basic
+									functionalities which can be accessed over the API include
+									downloading, uploading and deleting files. These operations can
+									be implemented in your App so users can directly interact with
+									SceneManager.
+								</p>
+							</div>
+
+							<div id="section2c">
+								<h4>Authentication</h4>
+								<p>
+									For some of the functionalities authentication is required.
+									Here we provide an OAuth2-authentication over Google. Accessing
+									secured functions with the browser will result in an automatic
+									redirect to Google for signing in. For access over the API you
+									can get an access token from Google using their API which is
+									available for multiple programming languages. Here you find a
+									detailed description for <a
+										href="https://developers.google.com/identity/sign-in/android/start-integrating">Android</a>.
+								</p>
+							</div>
+
+							<div id="section2d">
+								<h4>Scene Structure</h4>
+								<p>In order to prevent the upload from non valid files,
+									Scene Manager only allows ADF-Files from Google Tango as well
+									as so called “Scene-Files”. Scene Files are a zip-File
+									consisting of an ADF-File together with an JSON-File,
+									containing the description of the placed POIs in the scene. An
+									example for an Scene with one POI could look like this:</p>
+								<pre id="json">
+							<code class="json">[
+  {
+    "id": 2,				//Unique ID of POI
+    "name": "",				//Name of POI
+    "description": "",			//Description of POI
+    "longDescription": "",		//Long Descripiton if needed
+    "vectY": -0.021479874849319, 	//Y component of vector in relation to ADF origin
+    "vectX": 1.1903547048569,		//X component of vector in relation to ADF origin
+    "vectZ": -2.8867497444153,	        //Z component of vector in relation to ADF origin
+    "apiCallURL": "",			//URL to make call when POI is triggered
+    "color": -16734474,			//Color of POI
+    "priority": 0,			//Priority for filtering POIs if needed
+    "quatW": 0.96998665693534,	        //Quaternion Component W of POI(rotation)
+    "quatY": -0.24064594912016,	        //Quaternion Component Y of POI(rotation)
+    "quatX": -0.033836948869874,    	//Quaternion Component X of POI(rotation)
+    "quatZ": 0.008394671191672,	        //Quaternion Component Z of POI(rotation)
+    "panelForm": {			//Nested form Descripton:
+      "id": 1, 		                  Here a panel with width and height 0.3 
+      "heigth": 0.3,                      (Also cubeForm possible with width height and depth)
+      "width": 0.3
+     }
+  }
+]</code>
+						</pre>
+							</div>
+
+							<div id="section2e">
+								<h4>Structure definitions</h4>
+								<p>In the section above you see the general structure of a
+									scene. Here we explain the detailed information like datatypes.</p>
+
+
+								<p>PoiObject (see: PoiObject.class)</p>
+								<table cellspacing="10" border="3">
+									<tbody>
+										<tr>
+											<th align="left" height="17">Object</th>
+											<th align="left">Datatype</th>
+											<th align="left">Unit</th>
+											<th align="left">Description</th>
+											<th align="left">Limitation</th>
+										</tr>
+										<tr>
+											<td align="left" height="17">ID</td>
+											<td align="left">Integer</td>
+											<td align="left">-</td>
+											<td align="left">Unique ID of POI</td>
+											<td align="left">Between 0 and Integer.MAX_VALUE</td>
+										</tr>
+										<tr>
+											<td align="left" height="17">name</td>
+											<td align="left">String</td>
+											<td align="left">-</td>
+											<td align="left">Name of POI</td>
+											<td align="left"><br></br></td>
+										</tr>
+										<tr>
+											<td align="left" height="17">description</td>
+											<td align="left">String</td>
+											<td align="left">-</td>
+											<td align="left">Description of POI</td>
+											<td align="left"><br></br></td>
+										</tr>
+										<tr>
+											<td align="left" height="17">longDescription</td>
+											<td align="left">String</td>
+											<td align="left">-</td>
+											<td align="left">Description of POI</td>
+											<td align="left"><br></br></td>
+										</tr>
+										<tr>
+											<td align="left" height="17">priority</td>
+											<td align="left">Integer</td>
+											<td align="left">-</td>
+											<td align="left">Priority of POI</td>
+											<td align="left">Between Integer.MIN_VALUE and
+												Integer.MAX_VALUE</td>
+										</tr>
+										<tr>
+											<td align="left" height="17">Color</td>
+											<td align="left">Color</td>
+											<td align="left">Color ints</td>
+											<td align="left">Color of the POI</td>
+											<td align="left">https://developer.android.com/reference/android/graphics/Color.html</td>
+										</tr>
+										<tr>
+											<td align="left" height="17">ApiCallUrl</td>
+											<td align="left">String</td>
+											<td align="left">-</td>
+											<td align="left">URL to make call when POI is triggered</td>
+											<td align="left">https://developer.android.com/reference/java/net/URL.html</td>
+										</tr>
+										<tr>
+											<td align="left" height="17">quatW</td>
+											<td align="left">Double</td>
+											<td align="left"><br></br></td>
+											<td align="left">Quaternion Component Y of POI(rotation)</td>
+											<td align="left">Between 0 and 1</td>
+										</tr>
+										<tr>
+											<td align="left" height="17">quatX</td>
+											<td align="left">Double</td>
+											<td align="left"><br></br></td>
+											<td align="left">Quaternion Component Y of POI(rotation)</td>
+											<td align="left">Between -1 and 1</td>
+										</tr>
+										<tr>
+											<td align="left" height="17">quatY</td>
+											<td align="left">Double</td>
+											<td align="left"><br></br></td>
+											<td align="left">Quaternion Component Y of POI(rotation)</td>
+											<td align="left">Between -1 and 1</td>
+										</tr>
+										<tr>
+											<td align="left" height="17">quatZ</td>
+											<td align="left">Double</td>
+											<td align="left"><br></br></td>
+											<td align="left">Quaternion Component Y of POI(rotation)</td>
+											<td align="left">Between -1 and 1</td>
+										</tr>
+										<tr>
+											<td align="left" height="17">vectX</td>
+											<td align="left">Double</td>
+											<td align="left">meter</td>
+											<td align="left">X component of vector in relation to
+												ADF Orignin</td>
+											<td align="left">Between min and max-value of ADF
+												recording</td>
+										</tr>
+										<tr>
+											<td align="left" height="17">vectY</td>
+											<td align="left">Double</td>
+											<td align="left">meter</td>
+											<td align="left">Y component of vector in relation to
+												ADF Orignin</td>
+											<td align="left">Between min and max-value of ADF
+												recording</td>
+										</tr>
+										<tr>
+											<td align="left" height="17">vectZ</td>
+											<td align="left">Double</td>
+											<td align="left">meter</td>
+											<td align="left">Z component of vector in relation to
+												ADF Orignin</td>
+											<td align="left">Between min and max-value of ADF
+												recording</td>
+										</tr>
+										<tr>
+											<td align="left" height="17">Activities</td>
+											<td align="left">String[]</td>
+											<td align="left">-</td>
+											<td align="left">String array containing activities
+												connected to this POI.</td>
+											<td align="left"><br></br></td>
+										</tr>
+										<tr>
+											<td align="left" height="17">PanelForm</td>
+											<td align="left">panelForm</td>
+											<td align="left"><br></br></td>
+											<td align="left">Object representing the panel form of
+												POI. Each POI creates new Panel form with new ID</td>
+											<td align="left"><br></br></td>
+										</tr>
+										<tr>
+											<td align="left" height="17">CubeForm</td>
+											<td align="left">CubeForm</td>
+											<td align="left"><br></br></td>
+											<td align="left">Object representing the cube form of
+												POI. Each POI creates new Cube form with new ID</td>
+											<td align="left"><br></br></td>
+										</tr>
+									</tbody>
+								</table>
+
+								<p>PanelForm (see: PanelForm.class)</p>
+								<table cellspacing="10" border="3">
+									<tbody>
+										<tr>
+											<th align="left" height="17">Object</th>
+											<th align="left">Datatype</th>
+											<th align="left">Unit</th>
+											<th align="left">Description</th>
+											<th align="left">Limitation</th>
+										</tr>
+										<tr>
+											<td align="left" height="17">Id</td>
+											<td align="left">Integer</td>
+											<td align="left">-</td>
+											<td align="left">Id of Panel placed at POI</td>
+											<td align="left">Between Integer.MIN_VALUE and
+												Integer.MAX_VALUE</td>
+										</tr>
+										<tr>
+											<td align="left" height="17">heigth</td>
+											<td align="left">Float</td>
+											<td align="left">meters</td>
+											<td align="left">Height of Panel placed at POI</td>
+											<td align="left">Float.MIN_VALUE to Float.MAX_VALUE</td>
+										</tr>
+										<tr>
+											<td align="left" height="17">width</td>
+											<td align="left">Float</td>
+											<td align="left">meters</td>
+											<td align="left">Width of Panel placed at POI</td>
+											<td align="left">Float.MIN_VALUE to Float.MAX_VALUE</td>
+										</tr>
+									</tbody>
+								</table>
+
+								<p>CubeForm (see: CubeForm.class)</p>
+								<table cellspacing="10" border="3">
+									<tbody>
+										<tr>
+											<th align="left" height="17">Object</th>
+											<th align="left">Datatype</th>
+											<th align="left">Unit</th>
+											<th align="left">Description</th>
+											<th align="left">Limitation</th>
+										</tr>
+										<tr>
+											<td align="left" height="17">Id</td>
+											<td align="left">Integer</td>
+											<td align="left">-</td>
+											<td align="left">Id of Cube placed at POI</td>
+											<td align="left">Between Integer.MIN_VALUE and
+												Integer.MAX_VALUE</td>
+										</tr>
+										<tr>
+											<td align="left" height="17">heigth</td>
+											<td align="left">Float</td>
+											<td align="left">meters</td>
+											<td align="left">Height of Cube placed at POI</td>
+											<td align="left">Float.MIN_VALUE to Float.MAX_VALUE</td>
+										</tr>
+										<tr>
+											<td align="left" height="17">width</td>
+											<td align="left">Float</td>
+											<td align="left">meters</td>
+											<td align="left">Width of Cube placed at POI</td>
+											<td align="left">Float.MIN_VALUE to Float.MAX_VALUE</td>
+										</tr>
+										<tr>
+											<td align="left" height="17">depth</td>
+											<td align="left">Float</td>
+											<td align="left">meters</td>
+											<td align="left">Width of Cube placed at POI</td>
+											<td align="left">Float.MIN_VALUE to Float.MAX_VALUE</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+
+
+
+						</div>
+						<div id="section3">
+							<h2>Hosting your own SceneManager</h2>
+							<p>If you wish to run your own Scene Manager e.g. just in
+								your local environment you can find the full source code on
+								Github.</p>
+
+
+							<div id="section3a">
+								<h4>Overview</h4>
+								<p>SceneManager is build with the help of <a href="https://projects.spring.io/spring-boot/"></a>Spring Boot.
+									For the storage of
+									the meta data of the files an Postgres database is used.</p>
+							</div>
+
+
+							<div id="section3b">
+								<h4>API Keys</h4>
+								<p>For some parts of the tool additional tokens or keys are
+									required.</p>
+								<h5>Mapbox</h5>
+								<p>To obtain an access token just register on
+									www.mapbox.com. Then you have to set your key in the
+									map_api_token.js file in order to obtain the right tiles for
+									the maps build in the application.</p>
+									<p>You can simply add your client id and token in the js-folder in the file: 
+									<i>./src/main/resources/static/js/map_api_token.js</i></p>
+								<h5>Authentication</h5>
+								<p>By default SceneManager OAuth2 Service for
+									Authentication. By default Google is used for this step.
+									However, you are not limited to Google. Other providers could
+									be Github, Facebook, StackOverflow, etc In order to get OAuth2
+									with Google running for SceneManager you need to specify a key
+									and secret which you can obtain on the a<a href="https://console.developers.google.com/">Google Developer Console</a>
+									. Simply provide a
+									description for your application together with a redirect link.
+									Then just add the clientId as well as the secret in the
+									<i>application.properties</i> at the right place. Then your
+									application should be able to use Sign in with Google.</p>
+							</div>
+
+							<div id="section3c">
+								<h4>Setting up machine</h4>
+								<p>On your machine where you want to host sceneManager make
+									sure you have the java runtime(jre) installed. On Ubuntu or
+									Debian you can do so by executing
+								<pre><code>sudo apt-get install openjdk-jre</code></pre>
+								After that, install postgresql and postgresql-contrib with the
+								command:
+								<pre><code>sudo apt-get install postgresql postgresql-contrib</code></pre>
+								The contib package is needed since we rely on cube and
+								earthdistance extension. To set up a new database create a user
+								and a new db. To do so, run the following commands:
+								<pre><code>adduser scenemanager 
+su - postgres
+createuser scenemanager
+psql -d scenemanagerdb -U scenemanager</code></pre>
+								Now you are able to use an postgres database with the name
+								scenemanagerdb and the user scenemanager. To allow scenemanager
+								access the database you have to change the <i>hb_conf.db</i>
+								which is located under <i>etc/postgresql/[version]/main/hb_conf.db</i>
+								Here you have to add a new line set the access method for
+								scenemanagerdb to md5:
+								<pre><code> host scenemanagerdb scenemanager localhost md5</code></pre>
+
+								For more information about this step see <a
+									href="https://www.postgresql.org/docs/9.4/static/auth-pg-hba-conf.html">here</a>.
+
+								In the application.properties set the path to the dbname you
+								just created and set the credentials for the database. If you
+								want to allow your user to install the extensions by itself you
+								have to enable it as superuser from the postgrespl console with
+								the command:
+								<pre><code class="shell">ALTER USER myuser WITH SUPERUSER;(Executed from a superuser)</code></pre>
+								If you dont want to grant superuser priviledges, think about
+								installing the extensions by hand with your superuser account
+								for the database used by scenemanger. If you want to run
+								SceneManager on Port 80 you need to run it as root. If you want
+								to avoid this security risk, run it as an other user on port
+								8080 and redirect traffic on port 80 to 8080. This can be
+								achived with the command executed as root:
+								<pre><code>iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080</code></pre>
+								Furthermore you have to allow the scenemanager to access the
+								psql db by password method. This can be done by editing
+								hb_conf.db. To finally run SceneManager simply execute
+								<pre><code>java -jar target/teco-tango-scene-manager-1.0-SNAPSHOT.jar</code></pre>
+								on your machine. Now you should be able to see SceneManager
+								running on the specified port from you <i>application.conf</i>
+								file.
+								</p>
+							</div>
+
+
+						</div>
+
+						<div id="section4">
+							<h2>Develop Scene Manager</h2>
+							<p>To do further development on Scene Manager it is a good
+								start to get familiar with the concepts of Spring Boot. The
+								development was done with Eclipse and the <a href="https://marketplace.eclipse.org/content/spring-tools-aka-spring-ide-and-spring-tool-suite">Spring
+								Plugin</a>, which gives some nice features for the
+								development of Scene Manager(e.g. auto refresh etc.). The build
+								system is <a href="https://maven.apache.org/">Maven</a>. For creating the standalone jar-File
+								you can enter the SceneManager folder and run: 
+								<pre><code>mvn package</code></pre>After
+								that, you should find an jar-File in the <i>target</i> folder.</p>
+								
+								<p>If you make changes on the API and you want to update the REST-API description, just comment your changes right into the Java-Class. After that you can regenereate the Docs using <a href="http://apidocjs.com/">apidoc</a>. Just run the following command to do so: 
+								<pre><code>apidoc -i ./src/ -o ./src/main/resources/static/docapi/</code></pre>
+								</p>
+						</div>
+						
+						<div id="section5">
+							<h2>SceneManagerClient</h2>
+							<p>Also the source code for SceneManagerClient is available on Github</p>
+							<p> If you want to use the client app for your own hosted SceneManger you can change the URL and the port of the Scenemanager in the SceneManagerClient settings. 
+								</p>
+								<img class="sizesmall" alt="SceneManagerClient"
+								src="/images/SceneManagerClient.jpg"></img>
+						</div>
+						
+
+						<div id="section6">
+							<h2>EditSys</h2>
+							<p>Also the source code for EditSys is available on Github</p>
+							<img class="sizeimg" alt="EditSys Architektur"
+								src="/images/ArchitekturLight.png"></img>
+							<p>The basic functionality for EditSys is to place objects in
+								the real world through AR. These objects can be stored on the
+								device and contain the information you can find on chapter
+								scene(Link). Scenes can be exported, so they are stored locally
+								on the device, as well as uploaded on SceneManager to provide
+								simple sharing across multiple devices. Internally EditSys is
+								with POI objects defined by i<i>POIObject.class</i>. These objects are
+								stored in an <a href="https://www.sqlite.org/">Sqlite</a> database. All POI positions are
+								relative to the start of the ADF recording. For more information
+								about the Tango reference system, have a look <a href="https://developers.google.com/tango/overview/frames-of-reference">here</a>.</p>
+						</div>
+						
+						<div id="section7">
+							<h2>Possible Improvements</h2>
+							<p>SceneManager can be seen as a proof of concept for easy sharing ADF files between devices. However, there are more possibilites to make this tool more useful.</p>
+							<p>Right now, for the coordinates there is only one point used, which can be seen as the center of the recorded area. A nice feature would be to include the size of the recorded ADF and show it as a shape on the map. E.g. a rectangle representing a building. </p>
+							<p>The support for altitude is very basic so far. Basically it is just stored in the database. It would be nice to implement some sort of "level detection" based on the altitude so the right ADF for the right level is downloaded automatically. </p>
+							<p> Improve management of files. So far the owner is only capable of deleting his own files, while everyone can see them. In a updated version there could be more settings like keeping some ADFs private.</p>
+													<p>So far, SceneManager only stores the files on the file system. This can lead to problems when multiple users acting at once on a file. Think about saving files in a database like <a href="https://www.mongodb.com/">MongoDB</a>.</p>
+						</div>
+
+					</div>
+					<nav class="col-sm-3" id="myScrollspy">
+						<ul class="nav nav-stacked nav-pills fixed">
+							<li class="active"><a href="#section1">About the project</a></li>
+							<li><a href="#section2">SceneManager</a>
+								<ul class="nav nav-stacked nav-pills">
+									<li><a href="#section2a">Structure</a></li>
+									<li><a href="#section2b">API Description</a></li>
+									<li><a href="#section2c">Authentication</a></li>
+																	<li><a href="#section2d">Scene Structure</a></li>
+									<li><a href="#section2e">Structure definitions</a></li>
+								</ul></li>
+							<li><a href="#section3">Hosting</a>
+								<ul class="nav nav-stacked nav-pills">
+									<li><a href="#section3a">Overview</a></li>
+									<li><a href="#section3b">API Keys</a></li>
+									<li><a href="#section3c">Setting up machine</a></li>
+								</ul></li>
+							<li><a href="#section4">Develop Scene Manager</a></li>
+							<li><a href="#section5">SceneManagerClient</a></li>
+							<li><a href="#section6">EditSys</a></li>
+							<li><a href="#section7">Possible Improvements</a></li>
+							
+						</ul>
+					</nav>
+
+
+
+				</div>
+			</div>
+		</div>
+
+		<footer class="footer">
+			<p>
+				&copy; 2017 <a href="http://www.teco.edu">TECO</a>
+			</p>
+		</footer>
+	</div>
+
+	<script>
+		$(function() {
+			hljs.initHighlightingOnLoad();
+			var logout = $("#logout");
+			logout.click(function() {
+				var jqxhr = $.post("/logout", function(response) {
+					window.location.href = "/";
+				}).fail(function() {
+					alert("error on logout");
+				});
+			});
+
+		});
+	</script>
+
+	<style>
+#mapid {
+	height: 300px;
+}
+/* Space out content a bit */
+body {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header, .marketing, .footer {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+/* Custom page header */
+.header {
+	padding-bottom: 20px;
+	border-bottom: 1px solid #e5e5e5;
+}
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+	margin-top: 0;
+	margin-bottom: 0;
+	line-height: 40px;
+}
+
+/* Custom page footer */
+.footer {
+	padding-top: 19px;
+	color: #777;
+	border-top: 1px solid #e5e5e5;
+}
+
+.container-narrow>hr {
+	margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+	text-align: center;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.jumbotron .btn {
+	padding: 14px 24px;
+	font-size: 21px;
+}
+
+/* Supporting marketing content */
+.marketing {
+	margin: 40px 0;
+}
+
+.marketing p+h4 {
+	margin-top: 28px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+	/* Remove the padding we set earlier */
+	.header, .marketing, .footer {
+		padding-right: 0;
+		padding-left: 0;
+	}
+	/* Space out the masthead */
+	.header {
+		margin-bottom: 30px;
+	}
+	/* Remove the bottom border on the jumbotron for visual effect */
+	.jumbotron {
+		border-bottom: 0;
+	}
+	#myScrollspy {
+		display: block
+	}
+}
+
+@media screen and (max-width: 768px) {
+	#myScrollspy {
+		display: none
+	}
+}
+
+.login-btn:hover { /* On hover */
+	background-image: url(btn_google_signin_dark_focus_web.png);
+}
+
+.login-btn:focus { /* After a click */
+	background-image: url(btn_google_signin_dark_pressed_web.png);
+}
+
+body {
+	padding-top: 50px;
+}
+
+.starter-template {
+	padding: 40px 15px;
+	text-align: center;
+}
+
+.no-padding {
+	padding: 0 !important;
+}
+
+#Stuff needed for scrollspy
+  body {
+	position: relative;
+	heigth: 100%
+}
+
+html {
+	height: 100%;
+}
+
+ul.fixed {
+	top: 50px;
+	position: fixed;
+}
+
+.sizeimg {
+	heigth: auto;
+	width: 100%;
+}
+
+
+.sizesmall {
+	heigth: auto;
+	width: 250px;
+}
+
+
+*[id]:before {
+	display: block;
+	content: " ";
+	margin-top: -75px;
+	height: 75px;
+	visibility: hidden;
+}
+</style>
+</body>
+</html>

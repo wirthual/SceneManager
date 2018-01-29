@@ -1,0 +1,532 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<script src="/webjars/jquery/3.1.1/jquery.min.js"></script>
+
+<script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"></link>
+<link rel="stylesheet" href="/webjars/leaflet/1.2.0/leaflet.css"></link>
+<link rel="stylesheet" href="/css/atelier-cave-light.css"></link>
+<script src="/webjars/leaflet/1.2.0/leaflet.js"></script>
+
+<script src="/js/highlight.pack.js"></script>
+
+</head>
+<body id="scrollwrapper" data-spy="scroll" data-target="#myScrollspy"
+	data-offset="51">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<a href="https://github.com/wirthual"><img
+			style="position: absolute; top: 0; left: 0; border: 0;"
+			src="https://camo.githubusercontent.com/82b228a3648bf44fc1163ef44c62fcc60081495e/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f7265645f6161303030302e706e67"
+			alt="Fork me on GitHub"
+			data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"></img></a>
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Scene Manager</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="/">Home</a></li>
+					<li><a href="overview">Overview</a></li>
+					<li><a href="manage">Manage</a></li>
+					<li><a href="upload">Upload</a></li>
+					<li class="active"><a href="#">About</a></li>
+					<li><a href="fordeveloper">Developers</a></li>
+
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a class="no-padding" href="overview"><img
+							href="login" sec:authorize="isAnonymous()" class="login-btn"
+							src="/images/btn_google_signin_dark_normal_web.png"></img></a></li>
+					<li><a class="dropdown-toggle nopadding"
+						data-toggle="dropdown" sec:authorize="isAuthenticated()"
+						sec:authentication="name">Name</a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a role="button" id="logout">Logout</a></li>
+						</ul></li>
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</nav>
+
+	<div>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<div id="section1">
+						<h2>About the project</h2>
+						<p>This project was created in the Praxis der Forschung event
+							on the way to MSc. at the KIT at TECO.</p>
+					</div>
+
+					<div class="col-sm-9">
+						<div id="section2">
+							<h2>General Information</h2>
+							<p>
+								SceneManager is a Web Repository for uploading, storing and
+								retrieving Google Tango <a
+									href="https://developers.google.com/tango/overview/area-learning">Area
+									Description Files</a>. The service is open to the public. With
+								SceneManager you can upload your recoded ADF and tag it with
+								information for localization. Examples areGPS coordinates, the
+								altitude where the ADF file is recorded and its level if its
+								inside a building. Furthermore, you can add an name and a
+								description for your ADF. To add overlaying annotation
+								information into an ADF scene additional data is required.
+								SceneManager allows to upload Scene Data associated with the ADF
+								file. Scenes are JSON formatted files that can be edited
+								manually or graphically using a Tango device and the EditSys
+								app.
+							</p>
+
+							<div id="section2a">
+								<h4>Overview</h4>
+								<p>This tab gives you an overview of all the uploaded Scenes
+									and ADFs by other users. To make it easy to find uploaded files
+									around a specific place, you can search with the map on the
+									right side. For detailed information you can see the table. The
+									following fields are included in the data.</p>
+
+
+								<dl class="dl-horizontal">
+									<dt>Type</dt>
+									<dd>Specifies whether the file is just an ADF or an Scene
+										created by the edit system</dd>
+									<dt>Name</dt>
+									<dd>Name of the uploaded file. Could be room number or
+										anything else meaningful</dd>
+									<dt>Description</dt>
+									<dd>In addition to name, you can add a more detailed
+										description here</dd>
+									<dt>Latitude</dt>
+									<dd>Latitude of the GPS coordinate to localize the file</dd>
+									<dt>Longitude</dt>
+									<dd>Longitude of the GPS coordinate to localize the file</dd>
+									<dt>Altitude</dt>
+									<dd>Altitude at the place the file was recorded. Useful
+										for e.g. high Buildings.</dd>
+									<dt>Level</dt>
+									<dd>Direct assignment of a building level</dd>
+								</dl>
+
+								<p>In order to download the Scene or ADF, you can click on
+									the download button in the table and receive the file directly
+									from SceneManager.</p>
+
+								<div id="section2b">
+									<h4>Manage</h4>
+									<p>To reach this tab you need to be signed in with you
+										Google account. Here you can see your own uploaded Scenes and
+										ADF files in the list as well on the map on the right side. If
+										you wish to remove a file, you can click the delete button to
+										do so.</p>
+								</div>
+
+								<div id="section2c">
+									<h4>Upload</h4>
+									<p>Here you can upload your ADF files and scenes. To be
+										able to upload you also have to be signed in with your Google
+										account. To upload a file you have to fill out all the fields
+										in the form on the left side. To help you to find your
+										location you can use the “Locate me” button to get the rough
+										location from your browser. You also can use the map on the
+										right side to choose your location or the make it more
+										accurate. All fields are mandatory, except altitude, since
+										this can be hard to figure out. By default this value is set
+										to 0.0 if left out.</p>
+								</div>
+
+
+
+
+
+							</div>
+						</div>
+						<div id="section3">
+							<h2>SceneManagerClient</h2>
+							<p>
+								To upload and download ADF-Files from Scene Manager we recommend
+								you to use the SceneManagerClient App. It can be found <a
+									href="/todo/playstore">here</a> and allows you easy management
+								of your ADF-Files across multiple devices and users.
+							</p>
+
+
+							<div id="section3a">
+								<h4>Upload</h4>
+								<h5>
+									<span class="badge badge-primary">1</span> Recoding of ADF-File
+								</h5>
+								<p>The first step is to record an ADF-File of the room you
+									want to use Area Learning in. In our how-to video we use the
+									App Tango Explorer, which can be found here.
+									(http://projectango.wikidot.com/apps)</p>
+								<h5>
+									<span class="badge badge-primary">2</span> Export your ADF-File
+								</h5>
+								<p>In order to upload the recorded ADF-File from step 1, you
+									need to export it on your file system. This can be done with
+									the ADF
+									Tool(https://play.google.com/store/apps/details?id=net.chucknology.tango.adftool).
+									To export a file, simply click on the item in the list you want
+									to export. Make sure you selected the right category in the top
+									bar. Once exported you can switch to File System and your
+									exported ADF-File should appear. The ADF-Files are exported to
+									/localStorage/ADFFiles.</p>
+
+								<h5>
+									<span class="badge badge-primary">3</span> Upload file to Scene
+									Manager
+								</h5>
+								<p>Once your file is exported you can use the Scene Manager
+									Client to upload the file to Scene Manager. Just select Upload
+									on the start screen. Then you can enter all the meta
+									information about the ADF-File like name, description,
+									location, altitude and level. For Location you can locate
+									yourself by clicking the “Location” button. Select the file you
+									wish to upload by clicking “Select File”. After all needed
+									Information is entered, you can upload your file clicking the
+									upload button. In order to authenticate you need to use your
+									Google account.</p>
+
+
+								<h5>
+									<span class="badge badge-primary">4</span> How To Video
+								</h5>
+								<video class="sizevid" src="/videos/upload.webm" controls="controls">
+								</video>
+							</div>
+
+
+							<div id="section3b">
+								<h4>Download</h4>
+								<h5>
+									<span class="badge badge-primary">1</span> Select File to
+									Download
+								</h5>
+								<p>Open the Scene Manager Client and choose Download. Then
+									you find a mask to search the area you are interested in. By
+									clicking “Location” you can locate yourself. Use the slider to
+									choose the radius to search around you. After clicking “Find”
+									you should see entries in the list at the bottom that match
+									your search. To download the file, select it from the list. Now
+									wait till your file is downloaded. You will find your file in
+									/localStorage/ADFFiles.</p>
+								<h5>
+									<span class="badge badge-primary">2</span> Import downloaded
+									ADF-File
+								</h5>
+								<p>To use your new downloaded ADF-File in an Tango
+									Application you need to import it. This functionality is
+									provided by the ADF-Tool
+									(https://play.google.com/store/apps/details?id=net.chucknology.tango.adftool).
+									In the upper bar select “Storage”. Now you see a list of local
+									files on your device. To import your new downloaded file,
+									select it from the list. To check if it worked, you can switch
+									on the bar to ADFs and you should see your new imported file in
+									the list.</p>
+								<h5>
+									<span class="badge badge-primary">3</span> How To Video
+								</h5>
+								<video class="sizevid" src="/videos/download.webm" controls="controls">
+								</video>
+							</div>
+						</div>
+
+						<div id="section4">
+							<h2>EditSys</h2>
+							<p>EditSys is a proof of concept Android app for overlaying
+								augmented objects (POIs in form of points, planes and cubes)
+								into the real world using the technologies provided by Google
+								Tango. Such created areas with additional objects we call a
+								“Scene”.</p>
+
+							<div id="section4a">
+								<h4>General Information</h4>
+								<p>In order to use EditSys you need to record an ADF File of
+									the room you want to place objects with EditSys. For this, we
+									recommend the Contstructor App provided by Google.
+									After recoding the area and savingthe ADF you can open EditSys
+									and load a new Scene. After EditSys has localized itself you
+									are ready to use the functions of EditSys explained in the next
+									chapter.</p>
+							</div>
+
+							<div id="section4b">
+								<h4>Functions</h4>
+								<p>The following table shows the function provided by the
+									EditSys</p>
+							
+							<table cellspacing="0" cellpadding="4">
+								<colgroup>
+									<col width="135"></col>
+									<col width="490"></col>
+								</colgroup>
+								<tbody>
+									<tr valign="top">
+										<td
+											style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0.1cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm"
+											>
+											<p>Place POI</p>
+										</td>
+										<td style="border: 1px solid #000000; padding: 0.1cm"
+											>
+											<p>After localization you can place objects by clicking
+												on a point in the real world. Then a mask for entering
+												details about the POI is shown to select description, color
+												etc.</p>
+										</td>
+									</tr>
+									<tr valign="top">
+										<td
+											style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm"
+											>
+											<p>Edit POI</p>
+										</td>
+										<td
+											style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm"
+											>
+											<p>
+												By long clicking on a POI you get a context menu where you
+												are able to delete or edit the POI, as well as trigger an
+												web-call if this was associated.<br></br> If you select a
+												POI you get a control panel to move the selected POI as well
+												as changing its orientation. By clicking the Edit option you
+												can change description, color and so on
+											</p>
+										</td>
+									</tr>
+									<tr valign="top">
+										<td
+											style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm"
+											 height="22">
+											<p>Upload Scene</p>
+										</td>
+										<td
+											style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm"
+											>
+											<p>By clicking upload Scene you can upload the current
+												state of your EditSystem with the placed Objects to the
+												SceneManager</p>
+										</td>
+									</tr>
+									<tr valign="top">
+										<td
+											style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0cm"
+											>
+											<p>Download Scene</p>
+										</td>
+										<td
+											style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; padding-top: 0cm; padding-bottom: 0.1cm; padding-left: 0.1cm; padding-right: 0.1cm"
+											>
+											<p>
+												With this function, you can download directly a previously
+												recorded scene from SceneManager to your device. You can
+												search your area for existing Scenes, which you can choose
+												from.
+												<!-- Wie kann man Szenen löschen oder eine alte Szene ersetzen? Das sollte ebenfalls beschrieben werden. -->
+											</p>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							</div>
+						</div>
+
+					</div>
+					<nav class="col-sm-3" id="myScrollspy">
+						<ul class="nav nav-stacked nav-pills fixed">
+							<li class="active"><a href="#section1">About the project</a></li>
+							<li><a href="#section2">General Information</a>
+								<ul class="nav nav-stacked nav-pills">
+									<li><a href="#section2a">Overview</a></li>
+									<li><a href="#section2b">Upload</a></li>
+									<li><a href="#section2c">Download</a></li>
+								</ul></li>
+								<li><a href="#section3">SceneManager Client</a>
+								<ul class="nav nav-stacked nav-pills">
+									<li><a href="#section3a">Upload</a></li>
+									<li><a href="#section3b">Download</a></li>
+								</ul></li>
+								<li><a href="#section4">EditSys</a>
+								<ul class="nav nav-stacked nav-pills">
+									<li><a href="#section4a">General Informations</a></li>
+									<li><a href="#section4b">Functions</a></li>
+								</ul></li>
+						</ul>
+					</nav>
+
+
+
+				</div>
+			</div>
+		</div>
+
+		<footer class="footer">
+			<p>
+				&copy; 2017 <a href="http://www.teco.edu">TECO</a>
+			</p>
+		</footer>
+	</div>
+
+	<script>
+		$(function() {
+			hljs.initHighlightingOnLoad();
+			var logout = $("#logout");
+			logout.click(function() {
+				var jqxhr = $.post("/logout", function(response) {
+					window.location.href = "/";
+				}).fail(function() {
+					alert("error on logout");
+				});
+			});
+
+		});
+	</script>
+
+	<style>
+#mapid {
+	height: 300px;
+}
+/* Space out content a bit */
+body {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header, .marketing, .footer {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+/* Custom page header */
+.header {
+	padding-bottom: 20px;
+	border-bottom: 1px solid #e5e5e5;
+}
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+	margin-top: 0;
+	margin-bottom: 0;
+	line-height: 40px;
+}
+
+/* Custom page footer */
+.footer {
+	padding-top: 19px;
+	color: #777;
+	border-top: 1px solid #e5e5e5;
+}
+
+.container-narrow>hr {
+	margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+	text-align: center;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.jumbotron .btn {
+	padding: 14px 24px;
+	font-size: 21px;
+}
+
+/* Supporting marketing content */
+.marketing {
+	margin: 40px 0;
+}
+
+.sizevid{
+	heigth: auto;
+	width: 100%;
+}
+
+
+.marketing p+h4 {
+	margin-top: 28px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+	/* Remove the padding we set earlier */
+	.header, .marketing, .footer {
+		padding-right: 0;
+		padding-left: 0;
+	}
+	/* Space out the masthead */
+	.header {
+		margin-bottom: 30px;
+	}
+	/* Remove the bottom border on the jumbotron for visual effect */
+	.jumbotron {
+		border-bottom: 0;
+	}
+	#myScrollspy {
+		display: block
+	}
+}
+
+@media screen and (max-width: 768px) {
+	#myScrollspy {
+		display: none
+	}
+}
+
+.login-btn:hover { /* On hover */
+	background-image: url(btn_google_signin_dark_focus_web.png);
+}
+
+.login-btn:focus { /* After a click */
+	background-image: url(btn_google_signin_dark_pressed_web.png);
+}
+
+body {
+	padding-top: 50px;
+}
+
+.starter-template {
+	padding: 40px 15px;
+	text-align: center;
+}
+
+.no-padding {
+	padding: 0 !important;
+}
+
+#Stuff needed for scrollspy
+  body {
+	position: relative;
+	heigth: 100%
+}
+
+html {
+	height: 100%;
+}
+
+ul.fixed {
+	top: 50px;
+	position: fixed;
+}
+
+*[id]:before {
+	display: block;
+	content: " ";
+	margin-top: -75px;
+	height: 75px;
+	visibility: hidden;
+}
+</style>
+</body>
+</html>
